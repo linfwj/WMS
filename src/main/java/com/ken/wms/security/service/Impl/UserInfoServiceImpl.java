@@ -36,8 +36,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     private EncryptingModel encryptingModel;
     @Autowired
     private RolesMapper rolesMapper;
-    @Autowired
-    UserInfoService userInfoService;
 
     /**
      * 获取指定用户ID对应的用户账户信息
@@ -256,5 +254,4 @@ public class UserInfoServiceImpl implements UserInfoService {
             return new HashSet<>();
         }
     }
-
 }

@@ -6,10 +6,10 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- 加载资源文件 -->
     <context:property-placeholder location="classpath:config/DBConfig.properties"/>
@@ -104,6 +104,18 @@
         <property name="driverClass" value="${jdbc.driverClass}"/>
         <property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
         <property name="testConnectionOnCheckout" value="${jdbc.testConnectionOnCheckout}"/>
+        <property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+        <property name="minPoolSize" value="${jdbc.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>
+        <property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+        <property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+        <property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"/>
+        <property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+        <property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+        <property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}"/>
+        <property name="automaticTestTable" value="${jdbc.automaticTestTable}"/>
+        <property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/>
+        <property name="preferredTestQuery" value="${jdbc.preferredTestQuery}"/>
     </bean>
 
     <!-- 配置 SqlSessionFactoryBean -->

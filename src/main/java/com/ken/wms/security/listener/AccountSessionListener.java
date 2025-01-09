@@ -60,7 +60,8 @@ public class AccountSessionListener implements HttpSessionListener, ApplicationC
         if (applicationContext instanceof WebApplicationContext){
             ((WebApplicationContext)applicationContext).getServletContext().addListener(this);
         }else{
-            throw new RuntimeException();
+            // Skip listener registration for non-web contexts (e.g., test context)
+            System.out.println("Skipping HttpSessionListener registration - not a web application context");
         }
     }
 }

@@ -1,0 +1,6 @@
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/config/SecurityConfig.java
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/mapper/UserMapper.java
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/service/AuthService.java
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/controller/AuthController.java
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/AuthServiceApplication.java
+/home/ubuntu/user-auth-system/auth-service/src/main/java/com/example/auth/entity/User.java

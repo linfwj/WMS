@@ -3,17 +3,29 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
  
- <configuration>
- 	<plugins>
- 		<plugin interceptor="com.github.pagehelper.PageHelper">
-  			<property name="dialog" value="mysql"/>
-  			<property name="offsetAsPage" value="false"/>
-  			<property name="rowBoundsWithCount" value="true"/>
-  			<property name="pageSizeZero" value="true"/>
-  			<property name="reasonable" value="false"/>
-  			<property name="params" value="pageNum=pageHelperStart;pageSize=pageHelperRows;"/>
-  			<property name="supportMethodsArguments" value="false"/>
-  			<property name="returnPageInfo" value="none"/>
-  		</plugin>
- 	</plugins>
- </configuration>
+<configuration>
+	<!-- Type aliases for base interfaces -->
+	<typeAliases>
+		<typeAlias type="com.ken.wms.common.domain.BaseEntity" alias="BaseEntity"/>
+		<typeAlias type="com.ken.wms.common.dao.BaseMapper" alias="BaseMapper"/>
+	</typeAliases>
+
+	<!-- Common result maps -->
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.InstantTypeHandler"/>
+	</typeHandlers>
+
+	<!-- Existing plugins configuration -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<property name="dialog" value="mysql"/>
+			<property name="offsetAsPage" value="false"/>
+			<property name="rowBoundsWithCount" value="true"/>
+			<property name="pageSizeZero" value="true"/>
+			<property name="reasonable" value="false"/>
+			<property name="params" value="pageNum=pageHelperStart;pageSize=pageHelperRows;"/>
+			<property name="supportMethodsArguments" value="false"/>
+			<property name="returnPageInfo" value="none"/>
+		</plugin>
+	</plugins>
+</configuration>

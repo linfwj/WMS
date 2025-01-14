@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ken.wms.common.dao.BaseMapper">
+    <!-- Common result map for base entities -->
+    <resultMap id="BaseResultMap" type="BaseEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- Common SQL fragments -->
+    <sql id="Base_Column_List">
+        id, name, create_time as createTime, update_time as updateTime
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime}
+            </if>
+        </where>
+    </sql>
+
+    <!-- Common CRUD operations -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM ${tableName}
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM ${tableName}
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM ${tableName}
+    </select>
+
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM ${tableName}
+        <include refid="Base_Where_Clause"/>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ${tableName} (name, create_time, update_time)
+        VALUES (#{name}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update">
+        UPDATE ${tableName}
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM ${tableName}
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="batchInsert">
+        INSERT INTO ${tableName} (name, create_time, update_time)
+        VALUES
+        <foreach collection="entities" item="item" separator=",">
+            (#{item.name}, #{item.createTime}, #{item.updateTime})
+        </foreach>
+    </insert>
+
+    <update id="batchUpdate">
+        <foreach collection="entities" item="item" separator=";">
+            UPDATE ${tableName}
+            <set>
+                <if test="item.name != null">
+                    name = #{item.name},
+                </if>
+                update_time = #{item.updateTime}
+            </set>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="batchDelete">
+        DELETE FROM ${tableName}
+        WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

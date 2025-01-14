@@ -15,6 +15,11 @@
 		<typeHandler handler="org.apache.ibatis.type.InstantTypeHandler"/>
 	</typeHandlers>
 
+	<!-- Reference common mapper -->
+	<mappers>
+		<mapper resource="mapper/CommonMapper.xml"/>
+	</mappers>
+
 	<!-- Existing plugins configuration -->
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageHelper">

@@ -10,4 +10,7 @@ src/main/webapp/WEB-INF/logs/
 
 # IDE support file
 .idea
-WMS.iml
+WMS.iml# IDE files
+.classpath
+.project
+.settings/

@@ -5,7 +5,8 @@ import com.ken.wms.common.util.ResponseUtil;
 import com.ken.wms.exception.UserAccountServiceException;
 import com.ken.wms.security.service.Interface.AccountService;
 import com.ken.wms.security.util.CheckCodeGenerator;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -35,7 +36,7 @@ import java.util.Map;
 @RequestMapping("/account")
 public class AccountHandler {
 
-    private static Logger log = Logger.getLogger("application");
+    private static Logger log = LogManager.getLogger("application");
 
     @Autowired
     private ResponseUtil responseUtil;

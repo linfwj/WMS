@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <Property name="webapp.root">${sys:webapp.root}</Property>
+    </Properties>
+    <Appenders>
+        <File name="FILE" fileName="${webapp.root}/WEB-INF/logs/default.log">
+            <PatternLayout pattern="[%d{MM-dd-HH-mm-ss}][%p] (%c:%M) - %m%n"/>
+        </File>
+        
+        <RollingFile name="ExceptionLogging" 
+                     fileName="${webapp.root}/WEB-INF/logs/applicationException"
+                     filePattern="${webapp.root}/WEB-INF/logs/applicationException-%d{yyyy-MM-dd}">
+            <PatternLayout pattern="[%d{MM-dd-HH-mm-ss}][%p] (%c:%M) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        
+        <RollingFile name="MethodInvokeLogging"
+                     fileName="${webapp.root}/WEB-INF/logs/applicationMethodInvoke"
+                     filePattern="${webapp.root}/WEB-INF/logs/applicationMethodInvoke-%d{yyyy-MM-dd}">
+            <PatternLayout pattern="[%d{MM-dd-HH-mm-ss}][%p] (%c:%M) - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="org.springframework" level="ERROR" additivity="false">
+            <AppenderRef ref="FILE"/>
+        </Logger>
+        <Logger name="org.apache" level="INFO" additivity="false">
+            <AppenderRef ref="FILE"/>
+        </Logger>
+        <Logger name="ExceptionLogging" level="ERROR" additivity="false">
+            <AppenderRef ref="ExceptionLogging"/>
+        </Logger>
+        <Logger name="MethodInvokeLogging" level="DEBUG" additivity="false">
+            <AppenderRef ref="MethodInvokeLogging"/>
+        </Logger>
+        <Root level="ERROR">
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+</Configuration>

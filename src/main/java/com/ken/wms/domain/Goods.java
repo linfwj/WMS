@@ -1,5 +1,7 @@
 package com.ken.wms.domain;
 
+import com.ken.wms.framework.validation.EntityValidator;
+
 /**
  * 货物信息
  * @author Ken
@@ -8,9 +10,11 @@ package com.ken.wms.domain;
 public class Goods {
 
 	private Integer id;// 货物ID
+	@EntityValidator.Required(message = "Name is required")
 	private String name;// 货物名
 	private String type;// 货物类型
 	private String size;// 货物规格
+	@EntityValidator.Required(message = "Value is required")
 	private Double value;// 货物价值
 
 	public Integer getId() {

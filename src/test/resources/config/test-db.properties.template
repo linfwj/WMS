@@ -1,7 +1,7 @@
-jdbc.user=root
-jdbc.password=LJQ20110627
+jdbc.user=${WMS_TEST_DB_USER:root}
+jdbc.password=${WMS_TEST_DB_PASSWORD}
 jdbc.driverClass=com.mysql.cj.jdbc.Driver
-jdbc.jdbcUrl=jdbc:mysql://localhost:3306/wms_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true
+jdbc.jdbcUrl=jdbc:mysql://${WMS_TEST_DB_HOST:localhost}:${WMS_TEST_DB_PORT:3306}/${WMS_TEST_DB_NAME:wms_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true
 jdbc.testConnectionOnCheckout=true
 jdbc.maxPoolSize=3
 jdbc.minPoolSize=1

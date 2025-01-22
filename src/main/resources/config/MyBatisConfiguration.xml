@@ -6,14 +6,14 @@
  <configuration>
  	<plugins>
  		<plugin interceptor="com.github.pagehelper.PageHelper">
-  			<property name="dialog" value="mysql"/>
+  			<property name="dialect" value="mysql"/>
   			<property name="offsetAsPage" value="false"/>
   			<property name="rowBoundsWithCount" value="true"/>
   			<property name="pageSizeZero" value="true"/>
-  			<property name="reasonable" value="false"/>
-  			<property name="params" value="pageNum=pageHelperStart;pageSize=pageHelperRows;"/>
-  			<property name="supportMethodsArguments" value="false"/>
-  			<property name="returnPageInfo" value="none"/>
+  			<property name="reasonable" value="true"/>
+  			<property name="params" value="count=countSql"/>
+  			<property name="supportMethodsArguments" value="true"/>
+  			<property name="returnPageInfo" value="check"/>
   		</plugin>
  	</plugins>
  </configuration>

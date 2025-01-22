@@ -36,15 +36,18 @@ public class FilterChainDefinitionMapBuilder {
         permissionMap.put("/menu/**", "authc");
 
         // 可变化的权限配置
-        LinkedHashMap<String, String> permissions = getPermissionDataFromDB();
-        if (permissions != null){
-            permissionMap.putAll(permissions);
+        try {
+            LinkedHashMap<String, String> permissions = getPermissionDataFromDB();
+            if (permissions != null && !permissions.isEmpty()) {
+                permissionMap.putAll(permissions);
+            }
+        } catch (Exception e) {
+            // Log error but continue with default permissions
+            System.err.println("Error loading permissions from database: " + e.getMessage());
         }
 
         // 其余权限配置
         permissionMap.put("/", "authc");
-
-//        permissionMap.forEach((s, s2) -> {System.out.println(s + ":" + s2);});
 
         return permissionMap;
     }
@@ -54,44 +57,34 @@ public class FilterChainDefinitionMapBuilder {
      * @return 返回所有保存在数据库中的 URL 保存信息
      */
     private LinkedHashMap<String, String> getPermissionDataFromDB(){
-        LinkedHashMap<String, String> permissionData = null;
+        LinkedHashMap<String, String> permissionData = new LinkedHashMap<>();
+        try {
+            List<RolePermissionDO> rolePermissionDOS = rolePermissionMapper.selectAll();
+            if (rolePermissionDOS != null && !rolePermissionDOS.isEmpty()){
+                String url;
+                String role;
+                String permission;
+                for (RolePermissionDO rolePermissionDO : rolePermissionDOS){
+                    url = rolePermissionDO.getUrl();
+                    role = rolePermissionDO.getRole();
 
-        List<RolePermissionDO> rolePermissionDOS = rolePermissionMapper.selectAll();
-        if (rolePermissionDOS != null){
-            permissionData = new LinkedHashMap<>(rolePermissionDOS.size());
-            String url;
-            String role;
-            String permission;
-            for (RolePermissionDO rolePermissionDO : rolePermissionDOS){
-                url = rolePermissionDO.getUrl();
-                role = rolePermissionDO.getRole();
-
-                // 判断该 url 是否已经存在
-                if (permissionData.containsKey(url)){
-                    builder.delete(0, builder.length());
-                    builder.append(permissionData.get(url));
-                    builder.insert(builder.length() - 1, ",");
-                    builder.insert(builder.length() - 1, role);
-                }else{
-                    builder.delete(0, builder.length());
-                    builder.append("authc,roles[").append(role).append("]");
+                    // 判断该 url 是否已经存在
+                    if (permissionData.containsKey(url)){
+                        builder.delete(0, builder.length());
+                        builder.append(permissionData.get(url));
+                        builder.insert(builder.length() - 1, ",");
+                        builder.insert(builder.length() - 1, role);
+                    }else{
+                        builder.delete(0, builder.length());
+                        builder.append("authc,roles[").append(role).append("]");
+                    }
+                    permission = builder.toString();
+                    permissionData.put(url, permission);
                 }
-                permission = builder.toString();
-//                System.out.println(url + ":" + permission);
-                permissionData.put(url, permission);
             }
+            return permissionData;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load permissions from database", e);
         }
-
-        return permissionData;
     }
-
-//    /**
-//     * 构造角色权限
-//     * @param role 角色
-//     * @return 返回 roles[role name] 格式的字符串
-//     */
-//    private String permissionStringBuilder(String role){
-//        builder.delete(0, builder.length());
-//        return builder.append("authc,roles[").append(role).append("]").toString();
-//    }
 }

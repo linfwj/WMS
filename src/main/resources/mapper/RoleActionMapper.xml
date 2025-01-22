@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.RoleActionMapper">
+    
+    <resultMap id="actionResultMap" type="com.ken.wms.domain.ActionDO">
+        <id column="ACTION_ID" property="actionId"/>
+        <result column="ACTION_NAME" property="actionName"/>
+        <result column="ACTION_DESC" property="actionDesc"/>
+        <result column="ACTION_PARAM" property="actionParam"/>
+    </resultMap>
+
+    <select id="selectActionsByRoleId" resultMap="actionResultMap" parameterType="java.lang.Integer">
+        SELECT a.*
+        FROM wms_action a
+        INNER JOIN wms_role_action ra ON a.ACTION_ID = ra.ACTION_ID
+        WHERE ra.ROLE_ID = #{roleId}
+        ORDER BY a.ACTION_ID ASC
+    </select>
+
+    <insert id="insertAction" parameterType="com.ken.wms.domain.ActionDO" useGeneratedKeys="true" keyProperty="actionId">
+        INSERT INTO wms_action (
+            ACTION_NAME,
+            ACTION_DESC,
+            ACTION_PARAM
+        ) VALUES (
+            #{actionName},
+            #{actionDesc},
+            #{actionParam}
+        )
+    </insert>
+
+    <insert id="insertRoleAction">
+        INSERT INTO wms_role_action (
+            ACTION_ID,
+            ROLE_ID
+        ) SELECT 
+            a.ACTION_ID,
+            #{param2}
+        FROM wms_action a
+        WHERE a.ACTION_NAME = #{param1}
+    </insert>
+
+    <delete id="deleteRoleAction">
+        DELETE FROM wms_role_action
+        WHERE ROLE_ID = #{param2}
+        AND ACTION_ID IN (
+            SELECT ACTION_ID
+            FROM wms_action
+            WHERE ACTION_NAME = #{param1}
+        )
+    </delete>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        DELETE FROM wms_role_action WHERE ROLE_ID = #{roleId}
+    </delete>
+</mapper>

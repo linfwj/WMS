@@ -11,6 +11,8 @@ import com.ken.wms.exception.RepositoryAdminManageServiceException;
 import com.ken.wms.exception.UserInfoServiceException;
 import com.ken.wms.security.service.Interface.MenuService;
 import com.ken.wms.security.service.Interface.UserInfoService;
+import com.ken.wms.security.service.Interface.FeatureService;
+import com.ken.wms.exception.FeatureServiceException;
 import com.ken.wms.security.util.EncryptingModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -48,6 +50,9 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
     private AccessRecordMapper accessRecordMapper;
     @Autowired
     private MenuService menuService;
+    
+    @Autowired
+    private FeatureService featureService;
 
     /**
      * 对用户进行角色授权
@@ -103,7 +108,21 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
             }
         }
 
-        return new SimpleAuthorizationInfo(roles);
+        SimpleAuthorizationInfo authInfo = new SimpleAuthorizationInfo(roles);
+        
+        // Add feature-based permissions
+        try {
+            String[] actions = featureService.getCurrentUserActions();
+            Set<String> permissions = new HashSet<>();
+            for (String action : actions) {
+                permissions.add("action:" + action);
+            }
+            authInfo.setStringPermissions(permissions);
+        } catch (FeatureServiceException e) {
+            // do logger
+        }
+        
+        return authInfo;
     }
 
     /**

@@ -58,11 +58,10 @@ public class AccountSessionListener implements HttpSessionListener, ApplicationC
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        // Only register as listener if we're in a web context
         if (applicationContext instanceof WebApplicationContext) {
             ((WebApplicationContext) applicationContext).getServletContext().addListener(this);
-        } else {
-            throw new RuntimeException("AccountSessionListener requires a WebApplicationContext. Current context: " 
-                + applicationContext.getClass().getName());
         }
+        // For non-web contexts (like tests), just skip registration
     }
 }

@@ -1,0 +1,18 @@
+jdbc.user=${WMS_DB_USER}
+jdbc.password=${WMS_DB_PASSWORD}
+jdbc.driverClass=com.mysql.cj.jdbc.Driver
+jdbc.jdbcUrl=jdbc:mysql://${WMS_DB_HOST:localhost}:${WMS_DB_PORT:3306}/${WMS_DB_NAME:wms_db}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true
+jdbc.testConnectionOnCheckout=true
+jdbc.maxPoolSize=10
+jdbc.minPoolSize=3
+jdbc.initialPoolSize=5
+jdbc.maxIdleTime=600
+jdbc.acquireIncrement=3
+jdbc.maxStatements=50
+jdbc.idleConnectionTestPeriod=120
+jdbc.acquireRetryAttempts=10
+jdbc.breakAfterAcquireFailure=false
+jdbc.testConnectionOnCheckin=true
+jdbc.checkoutTimeout=5000
+jdbc.unreturnedConnectionTimeout=3600
+jdbc.preferredTestQuery=SELECT 1

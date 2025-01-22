@@ -1,13 +1,14 @@
-## .gitignore
-
-# .gitignore for maven
+# IDE and build files
+.classpath
+.project
+.settings/
 target/
+*.class
 
-# web application file
-src/main/webapp/WEB-INF/lib/
-src/main/webapp/WEB-INF/temp/
-src/main/webapp/WEB-INF/logs/
+# Logs and temp
+logs/
+temp/
 
-# IDE support file
-.idea
-WMS.iml
+# Configuration files
+src/main/resources/config/*.properties
+src/test/resources/config/*.properties

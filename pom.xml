@@ -290,6 +290,12 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <!-- Update war plugin to be compatible with Java 17+ -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
         </plugins>
     </build>
 </project>

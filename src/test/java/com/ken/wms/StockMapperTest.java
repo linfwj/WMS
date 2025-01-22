@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by Ken on 2017/4/5.
  */
-@ContextConfiguration(locations = "classpath:config/SpringApplicationConfiguration.xml")
+@ContextConfiguration(locations = "classpath:config/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class StockMapperTest {
 

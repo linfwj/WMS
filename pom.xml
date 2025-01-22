@@ -36,6 +36,13 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <!-- MySQL Connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
         <!-- Servlet dependency -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -198,13 +205,6 @@
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>2.10.2</version>
-        </dependency>
-
-        <!-- mysql-connector-java dependency -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.38</version>
         </dependency>
 
         <!-- C3P0 dependency -->

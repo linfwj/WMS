@@ -22,7 +22,7 @@ import java.util.Date;
  * @since 2017/3/4.
  */
 @Component
-public class AccountSessionListener implements HttpSessionListener, ApplicationContextAware{
+public class AccountSessionListener implements HttpSessionListener, ApplicationContextAware {
 
     @Autowired
     private AccessRecordMapper accessRecordMapper;
@@ -39,28 +39,30 @@ public class AccountSessionListener implements HttpSessionListener, ApplicationC
 
         // 判断是否为已经登陆的用户
         // 判断依据是isAuthentication的值
-        if (accessRecordMapper == null){
-            System.out.println("session is null");
-        }
-        String isAuthenticate = (String) session.getAttribute("isAuthenticate");
-        if (isAuthenticate != null && isAuthenticate.equals("true")){
-            AccessRecordDO accessRecord = new AccessRecordDO();
-            accessRecord.setUserID((Integer) session.getAttribute("userID"));
-            accessRecord.setUserName((String) session.getAttribute("userName"));
-            accessRecord.setAccessType("登出");
-            accessRecord.setAccessTime(new Date());
-            accessRecord.setAccessIP("-");
+        try {
+            String isAuthenticate = (String) session.getAttribute("isAuthenticate");
+            if (isAuthenticate != null && isAuthenticate.equals("true") && accessRecordMapper != null) {
+                AccessRecordDO accessRecord = new AccessRecordDO();
+                accessRecord.setUserID((Integer) session.getAttribute("userID"));
+                accessRecord.setUserName((String) session.getAttribute("userName"));
+                accessRecord.setAccessType("登出");
+                accessRecord.setAccessTime(new Date());
+                accessRecord.setAccessIP(session.getId());
 
-            accessRecordMapper.insertAccessRecord(accessRecord);
+                accessRecordMapper.insertAccessRecord(accessRecord);
+            }
+        } catch (Exception e) {
+            System.err.println("Error recording session destruction: " + e.getMessage());
         }
     }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if (applicationContext instanceof WebApplicationContext){
-            ((WebApplicationContext)applicationContext).getServletContext().addListener(this);
-        }else{
-            throw new RuntimeException();
+        if (applicationContext instanceof WebApplicationContext) {
+            ((WebApplicationContext) applicationContext).getServletContext().addListener(this);
+        } else {
+            throw new RuntimeException("AccountSessionListener requires a WebApplicationContext. Current context: " 
+                + applicationContext.getClass().getName());
         }
     }
 }

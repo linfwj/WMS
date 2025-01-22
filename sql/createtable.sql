@@ -153,3 +153,25 @@ create table wms_access_record
     ACCESS_TIME datetime not null,
     ACCESS_IP varchar(45) not null
 );
+
+create table wms_menu
+(
+    MENU_ID int not null auto_increment,
+    MENU_NAME varchar(50) not null,
+    MENU_URL varchar(100) not null,
+    MENU_ICON varchar(50),
+    MENU_PARENT_ID int,
+    MENU_ORDER int not null default 0,
+    MENU_DESCRIPTION varchar(200),
+    primary key(MENU_ID),
+    foreign key(MENU_PARENT_ID) references wms_menu(MENU_ID)
+)engine=innodb;
+
+create table wms_role_menu
+(
+    ROLE_ID int not null,
+    MENU_ID int not null,
+    primary key(ROLE_ID, MENU_ID),
+    foreign key(ROLE_ID) references wms_roles(ROLE_ID),
+    foreign key(MENU_ID) references wms_menu(MENU_ID)
+)engine=innodb;

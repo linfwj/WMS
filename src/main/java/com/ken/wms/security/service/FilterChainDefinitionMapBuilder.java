@@ -33,6 +33,7 @@ public class FilterChainDefinitionMapBuilder {
         permissionMap.put("/login", "anon");
         permissionMap.put("/account/login", "anon");
         permissionMap.put("/account/checkCode/**", "anon");
+        permissionMap.put("/menu/**", "authc");
 
         // 可变化的权限配置
         LinkedHashMap<String, String> permissions = getPermissionDataFromDB();

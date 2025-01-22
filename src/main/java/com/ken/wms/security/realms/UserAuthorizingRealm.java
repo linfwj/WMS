@@ -3,10 +3,13 @@ package com.ken.wms.security.realms;
 import com.ken.wms.common.service.Interface.RepositoryAdminManageService;
 import com.ken.wms.dao.AccessRecordMapper;
 import com.ken.wms.domain.AccessRecordDO;
+import com.ken.wms.domain.MenuDO;
+import com.ken.wms.exception.MenuServiceException;
 import com.ken.wms.domain.RepositoryAdmin;
 import com.ken.wms.domain.UserInfoDTO;
 import com.ken.wms.exception.RepositoryAdminManageServiceException;
 import com.ken.wms.exception.UserInfoServiceException;
+import com.ken.wms.security.service.Interface.MenuService;
 import com.ken.wms.security.service.Interface.UserInfoService;
 import com.ken.wms.security.util.EncryptingModel;
 import org.apache.commons.lang3.StringUtils;
@@ -43,6 +46,8 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
     private RepositoryAdminManageService repositoryAdminManageService;
     @Autowired
     private AccessRecordMapper accessRecordMapper;
+    @Autowired
+    private MenuService menuService;
 
     /**
      * 对用户进行角色授权
@@ -72,6 +77,14 @@ public class UserAuthorizingRealm extends AuthorizingRealm {
                         Session session = currentUser.getSession();
                         List<RepositoryAdmin> repositoryAdmin = (List<RepositoryAdmin>) repositoryAdminManageService.selectByID(userInfo.getUserID()).get("data");
                         session.setAttribute("repositoryBelong", (repositoryAdmin.isEmpty()) ? "none" : repositoryAdmin.get(0).getRepositoryBelongID());
+
+                        // 获取用户可访问的菜单并设置到 Session 中
+                        try {
+                            List<MenuDO> userMenus = menuService.getCurrentUserMenus();
+                            session.setAttribute("userMenus", userMenus);
+                        } catch (MenuServiceException e) {
+                            // do logger
+                        }
 
                         // 记录用户登陆状态，用于作登出日志
                         session.setAttribute("isAuthenticate", "true");

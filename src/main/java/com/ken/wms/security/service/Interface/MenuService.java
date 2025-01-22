@@ -1,6 +1,7 @@
 package com.ken.wms.security.service.Interface;
 
 import com.ken.wms.domain.MenuDO;
+import com.ken.wms.domain.RoleMenuDO;
 import com.ken.wms.exception.MenuServiceException;
 
 import java.util.List;

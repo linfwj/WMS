@@ -3,6 +3,7 @@ package com.ken.wms.security.service.Impl;
 import com.ken.wms.dao.MenuMapper;
 import com.ken.wms.dao.RoleMenuMapper;
 import com.ken.wms.domain.MenuDO;
+import com.ken.wms.domain.RoleMenuDO;
 import com.ken.wms.exception.MenuServiceException;
 import com.ken.wms.security.service.Interface.MenuService;
 import com.ken.wms.security.service.Interface.UserInfoService;

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.MenuMapper">
+    
+    <resultMap id="menuResultMap" type="com.ken.wms.domain.MenuDO">
+        <id column="MENU_ID" property="menuId"/>
+        <result column="MENU_NAME" property="menuName"/>
+        <result column="MENU_URL" property="menuUrl"/>
+        <result column="MENU_ICON" property="menuIcon"/>
+        <result column="MENU_PARENT_ID" property="menuParentId"/>
+        <result column="MENU_ORDER" property="menuOrder"/>
+        <result column="MENU_DESCRIPTION" property="menuDescription"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="menuResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM wms_menu WHERE MENU_ID = #{menuId}
+    </select>
+
+    <select id="selectAll" resultMap="menuResultMap">
+        SELECT * FROM wms_menu ORDER BY MENU_ORDER ASC
+    </select>
+
+    <select id="selectByParentId" resultMap="menuResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM wms_menu WHERE MENU_PARENT_ID = #{parentId} ORDER BY MENU_ORDER ASC
+    </select>
+
+    <insert id="insert" parameterType="com.ken.wms.domain.MenuDO" useGeneratedKeys="true" keyProperty="menuId">
+        INSERT INTO wms_menu (
+            MENU_NAME,
+            MENU_URL,
+            MENU_ICON,
+            MENU_PARENT_ID,
+            MENU_ORDER,
+            MENU_DESCRIPTION
+        ) VALUES (
+            #{menuName},
+            #{menuUrl},
+            #{menuIcon},
+            #{menuParentId},
+            #{menuOrder},
+            #{menuDescription}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.ken.wms.domain.MenuDO">
+        UPDATE wms_menu
+        SET MENU_NAME = #{menuName},
+            MENU_URL = #{menuUrl},
+            MENU_ICON = #{menuIcon},
+            MENU_PARENT_ID = #{menuParentId},
+            MENU_ORDER = #{menuOrder},
+            MENU_DESCRIPTION = #{menuDescription}
+        WHERE MENU_ID = #{menuId}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM wms_menu WHERE MENU_ID = #{menuId}
+    </delete>
+</mapper>

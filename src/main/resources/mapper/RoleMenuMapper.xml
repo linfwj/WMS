@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ken.wms.dao.RoleMenuMapper">
+    
+    <resultMap id="menuResultMap" type="com.ken.wms.domain.MenuDO">
+        <id column="MENU_ID" property="menuId"/>
+        <result column="MENU_NAME" property="menuName"/>
+        <result column="MENU_URL" property="menuUrl"/>
+        <result column="MENU_ICON" property="menuIcon"/>
+        <result column="MENU_PARENT_ID" property="menuParentId"/>
+        <result column="MENU_ORDER" property="menuOrder"/>
+        <result column="MENU_DESCRIPTION" property="menuDescription"/>
+    </resultMap>
+
+    <select id="selectMenusByRoleId" resultMap="menuResultMap" parameterType="java.lang.Integer">
+        SELECT m.*
+        FROM wms_menu m
+        INNER JOIN wms_role_menu rm ON m.MENU_ID = rm.MENU_ID
+        WHERE rm.ROLE_ID = #{roleId}
+        ORDER BY m.MENU_ORDER ASC
+    </select>
+
+    <insert id="insert" parameterType="com.ken.wms.domain.RoleMenuDO">
+        INSERT INTO wms_role_menu (
+            ROLE_ID,
+            MENU_ID
+        ) VALUES (
+            #{roleId},
+            #{menuId}
+        )
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM wms_role_menu
+        WHERE ROLE_ID = #{param1} AND MENU_ID = #{param2}
+    </delete>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        DELETE FROM wms_role_menu WHERE ROLE_ID = #{roleId}
+    </delete>
+
+    <delete id="deleteByMenuId" parameterType="java.lang.Integer">
+        DELETE FROM wms_role_menu WHERE MENU_ID = #{menuId}
+    </delete>
+</mapper>

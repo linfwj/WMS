@@ -134,4 +134,22 @@ public class MenuServiceImpl implements MenuService {
             throw new MenuServiceException("Failed to check menu permission: " + e.getMessage());
         }
     }
+
+    @Override
+    public void assignMenuToRole(RoleMenuDO roleMenu) throws MenuServiceException {
+        try {
+            roleMenuMapper.insert(roleMenu);
+        } catch (Exception e) {
+            throw new MenuServiceException("Failed to assign menu to role: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void removeMenuFromRole(Integer roleId, Integer menuId) throws MenuServiceException {
+        try {
+            roleMenuMapper.delete(roleId, menuId);
+        } catch (Exception e) {
+            throw new MenuServiceException("Failed to remove menu from role: " + e.getMessage());
+        }
+    }
 }

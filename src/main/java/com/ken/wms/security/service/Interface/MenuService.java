@@ -52,4 +52,19 @@ public interface MenuService {
      * @return true if user has access, false otherwise
      */
     boolean hasMenuPermission(Integer menuId) throws MenuServiceException;
+
+    /**
+     * Assign menu to role
+     * @param roleMenu RoleMenuDO object containing role and menu IDs
+     * @throws MenuServiceException if assignment fails
+     */
+    void assignMenuToRole(RoleMenuDO roleMenu) throws MenuServiceException;
+
+    /**
+     * Remove menu from role
+     * @param roleId role ID
+     * @param menuId menu ID
+     * @throws MenuServiceException if removal fails
+     */
+    void removeMenuFromRole(Integer roleId, Integer menuId) throws MenuServiceException;
 }
